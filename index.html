@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="RosComputing">
+
+        <title>Liquidity Mgr</title>
+
+
+        <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="images/favicon/apple-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+
+        <link href='lib/fonts/fonts.css' rel='stylesheet' type='text/css'>
+        
+
+
+        <link rel="stylesheet" type="text/css" href="./css/base.css">
+        <link href='lib/font-awesome/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+        
+
+
+        <script src="lib/jquery.min.js"></script>
+        <script type="text/javascript" src="lib/kendo.all.min.js"></script>
+        <script type="text/javascript" src="lib/kendo.custom.js"></script>
+        <script src="lib/alertifyjs/alertify.js"></script>
+        <script src="lib/magnific-popup/jquery.magnific-popup.min.js"></script>
+        <script src="lib/moment/moment.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="lib/kendo.common.min.css" >
+        <link rel="stylesheet" type="text/css" href="lib/kendo.custom.css" >
+        <link rel="stylesheet" type="text/css" href="lib/alertifyjs/css/alertify.core.css" >
+        <link rel="stylesheet" type="text/css" href="lib/alertifyjs/css/alertify.min.css" >
+        <link rel="stylesheet" type="text/css" href="lib/alertifyjs/css/themes/default.min.css" >
+        <link rel="stylesheet" type="text/css" href="lib/alertifyjs/css/themes/bootstrap.min.css" >
+        <link rel="stylesheet" type="text/css" href="lib/magnific-popup/magnific-popup.css" >
+
+        <script src="js/menuVM.js"></script>
+        <script src="js/dashboardVM.js"></script>
+        <script src="js/mainTabsVM.js"></script>
+        <script src="js/common.js"></script>
+
+    </head>
+    <body id="zont-vm">
+
+
+        <!-- MENU -->
+            <div class="main-menu" id="menuVM">
+                <ul>
+                    <li>
+                        <span class="logo-item">
+                            <i>Z</i>
+                        </span>
+                        <ul>
+                            <li>
+                                <a href="javascript:;">Home</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">BackOffice</a>
+                            </li>
+                            <li class="active">
+                                <a href="javascript:;">Liquidity Mgr</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <button type="button">Import manager</button>
+                    </li>
+
+                    
+                    <script id="menu-dict-level1-template" type="text/x-kendo-template">
+                        <li>
+                            <span> #: name # <i class="fa fa-caret-right"></i></span>
+                            <ul>
+                                # $.each(children, function(k, item) {#
+                                    <li>
+                                        <button
+                                            data-bind="click: showTablePopup"
+                                            data-table-name="#: item.name #" 
+                                            type="button">#: item.path #</button>
+                                    </li>
+                                # }) #
+                            </ul>
+                        </li>
+                    </script>
+                    <li>
+                        Dictionaries
+                        <ul
+                            data-template="menu-dict-level1-template" 
+                            data-bind="source: dictionary"
+                        >
+                        </ul>
+                    </li>
+
+
+
+                    <li id="dictionary-menu" style="display:none">
+                        Dictionary
+                        <!-- Можно рассмотреть вариант автогенерации меню из скрипта. Это будет гибче -->
+                        <ul>
+                            <li>
+                                <span>
+                                    IT (auto) <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <button type="button">Agreements</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Broker Accounts</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Bussines Days</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Calendar</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Diasoft Op Mapping</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Exchange Rate</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Instruments</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Security 2 Alm</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Security Price</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    General <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <button type="button">Alternative currency codes</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Companies</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Counterparty</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Currency</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Excluded books</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Excluded counterparties</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Permissions</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Supported Dia Ops</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    Intraday <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <button type="button">Account Types</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Cash Position Groups</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Cash Positions</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Cash Positions Tree</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Commodity 2 Banks</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Diasoft Trd 2 Banks</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Fx 2 Banks</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">IRS 2 Banks</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">MM 2 Banks</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Morning Balances Group</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Morning Balances Tree</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    Structural <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <button type="button">ALM Books</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Alm Repords</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Diasoft Op Mapping Ext</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Diasoft account manual mapping</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Diasoft position to Banks</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    XML <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <button type="button">Dia 2 Sber</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Sberbank Rpt Company</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    IBS <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <button type="button">Cash Pos to broker</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Sub Broker Accounts</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    Bank accounts <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                </span>
+                                <ul>
+                                    <li>
+                                        <button type="button">Bank Accounts</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Bank Groups</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Banks</button>
+                                    </li>
+                                    <li>
+                                        <button type="button">Rest Report Priority</button>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="reports-menu-item">
+                        <button type="button">Reports</button>
+                        <ul class="with-check-col">
+                            <li class="active">
+                                <span class="icon">
+                                </span>
+                                <button type="button">Cash Flow Report</button>
+                            </li>
+                            <li class="active">
+                                <span class="icon">
+                                </span>
+                                <button type="button">Alm Report</button>
+                            </li>
+                            <li class="active">
+                                <span class="icon"></span>
+                                <button type="button">Broker Accounts Report</button>
+                            </li>
+                            <li class="active">
+                                <span class="icon"></span>
+                                <button type="button">Rest Report</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        <div class="base-cards-list">
+            <div class="card-item" id="dashboardVM">
+                <div class="card-header">
+                    <h3>Dashboard</h3>
+                    <div class="card-buttons">
+                        <button 
+                            data-bind="
+                                click: expandCard
+                            "
+                            title="Развернуть / свернуть"
+                            class="tasks-simple-tooltipster expand" type="button">
+                            <i class="fa fa fa-expand"></i>
+                        </button>
+
+                        <button 
+                            data-bind="
+                                click: closeCard
+                            "
+                            title="Спрятать"
+                            class="tasks-simple-tooltipster " type="button">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-content">
+
+                    <div class="vertical-card-list">
+                        <div class="card-item full">
+                            <div 
+                                data-bind="click: openVerticalCard"
+                                class="card-header">
+                                <h3>Cash Position</h3>
+
+                                <div class="card-buttons">
+                                    <button data-bind="
+                                            click: closeVerticalCard
+                                        " title="Спрятать" class="tasks-simple-tooltipster " type="button">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-top-panel">
+                                    <button 
+
+                                        type="button">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+
+                                        type="button">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span class="line"></span>
+
+                                    <button 
+                                        type="button">
+                                        <i class="fa fa-minus-square-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+
+                                        type="button">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span class="line"></span>
+
+                                    <div class="datepicker">
+                                        <input data-role="datepicker"
+                                            data-format="dd.MM.yyyy"
+                                            style="width: 100%">
+                                    </div>
+
+                                </div>
+
+                                <div id="cash-position-treelist"></div>
+
+
+                                <script id="cash-position-name-template" type="text/x-kendo-template">
+                                    <span class="name-col">
+                                        <b>
+                                            <i class="fa fa-folder" aria-hidden="true"></i>
+                                            #: Name #
+                                        </b>
+                                    </span>
+                                </script>
+
+                                <script id="cash-position-amount-template" type="text/x-kendo-template">
+                                    <span class="float-col">
+                                        <b>
+                                            #: String(Amount.toFixed(2)).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ') #
+                                        </b>
+                                    </span>
+                                </script>
+
+                            </div>
+                        </div>
+                        <div class="card-item ">
+                            <div 
+                                data-bind="click: openVerticalCard"
+                                class="card-header">
+                                <h3>Morning Balance</h3>
+                                <div class="card-buttons">
+                                    <button 
+                                        data-bind="
+                                            click: closeVerticalCard
+                                        "
+                                        title="Спрятать" class="tasks-simple-tooltipster " type="button">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-top-panel">
+                                    <button 
+
+                                        type="button">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+
+                                        type="button">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span class="line"></span>
+
+                                    <button 
+                                        type="button">
+                                        <i class="fa fa-minus-square-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+
+                                        type="button">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span class="line"></span>
+
+                                    <div class="datepicker">
+                                        <input data-role="datepicker"
+                                            data-format="dd.MM.yyyy"
+                                            style="width: 100%">
+                                    </div>
+
+                                </div>
+
+                                <div id="morning-balance-treelist"></div>
+
+
+                                <script id="morning-balance-name-template" type="text/x-kendo-template">
+                                    <span class="name-col">
+                                        <b>
+                                            <i class="fa fa-folder" aria-hidden="true"></i>
+                                            #: Name #
+                                        </b>
+                                    </span>
+                                </script>
+
+                                <script id="morning-balance-amount-template" type="text/x-kendo-template">
+                                    <span class="float-col">
+                                        <b>
+                                            #: String(Amount.toFixed(2)).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1 ') #
+                                        </b>
+                                    </span>
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-item" id="mainTabsVM">
+                <div class="card-header" data-bind="visible: getVisibleMainTabs">
+                    <h3>Main tabs</h3>
+
+                    <div class="tabs-list">
+                        <ul>
+                            <li>
+                                <button 
+                                    type="button">Cash Flow Report</button>
+
+                                <button class="close-button" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">Alm Report</button>
+                                <button class="close-button" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">Broker Accounts Report</button>
+                                <button class="close-button" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">Rest Report</button>
+                                <button class="close-button" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        
+                    </div>
+
+                    <div class="card-buttons">
+                        <button 
+                            data-bind="
+                                click: expandCard
+                            "
+                            title="Развернуть / свернуть"
+                            class="tasks-simple-tooltipster expand" type="button">
+                            <i class="fa fa fa-expand"></i>
+                        </button>
+
+                        <button 
+                            data-bind="
+                                click: closeCard
+                            "
+                            title="Спрятать"
+                            class="tasks-simple-tooltipster " type="button">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- ToDo: вынести все по файлам -->
+                <div class="card-content">
+                    <div class="tabs-list" data-bind="visible: getVisibleMainTabs">
+                        <!-- CASH FLOW REPORT -->
+                            <div>
+                                <div class="card-top-panel two-lines">
+                                    <button 
+
+                                        type="button">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                        data-bind="events: { click: readGridData }"
+                                        type="button">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span class="clear"></span>
+
+                                        <label class="title">Bank:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-bank"
+                                                data-filter="contains"
+                                                data-option-label="{ en_name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="en_name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: bankDropDataSource,
+                                                    events: { change: readGridData }
+                                                "></select>
+                                        </div>
+
+
+                                    <!-- <span class="line"></span> -->
+
+                                        <label class="title">Bank Grp:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-bank-grp"
+                                                data-filter="contains"
+                                                data-option-label="{ descr: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="descr" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: bankGrpDropDataSource,
+                                                    events: { change: readGridData }
+                                                "></select>
+                                        </div>
+
+
+                                    <!-- <span class="line"></span> -->
+
+                                        <label class="title">Curr:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-currency"
+                                                data-filter="contains"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="id" 
+                                                data-value-field="id" 
+                                                data-option-label-template="drop-down-option-label-template"
+                                                data-bind="
+                                                    source: currencyDropDataSource,
+                                                    events: { change: readGridData }
+                                                "></select>
+                                        </div>
+
+                                    <!-- <span class="line"></span> -->
+
+                                        <label class="title">History:</label>
+                                        <div class="datepicker">
+                                            <input data-role="datepicker"
+                                                name="filter-history"
+                                                data-bind="events: { change: readGridData }"
+                                                data-format="dd.MM.yyyy"
+                                                style="width: 100%">
+                                        </div>
+
+                                    <br>
+
+                                        <label class="title">Alm Report:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-alm-report"
+                                                data-filter="contains"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: almReportDropDataSource,
+                                                    events: { change: readGridData }
+                                                "></select>
+                                        </div>
+
+                                    <!-- <span class="line"></span> -->
+
+                                        <label class="title ">Bank Acc:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-bank-acc"
+                                                data-filter="contains"
+                                                data-option-label="{ code: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="code" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: bankAccDropDataSource,
+                                                    events: { change: readGridData }
+                                                "></select>
+                                        </div>
+
+                                    <!-- <span class="line"></span> -->
+
+                                        <label class="title">Legal Entity:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-legal-entity"
+                                                data-filter="contains"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-value-field="id" 
+                                                data-template="legal-entity-template"
+                                                data-value-template="legal-entity-template"
+                                                data-option-label-template="legal-entity-template"
+                                                data-bind="
+                                                    source: legalEntityDropDataSource,
+                                                    events: { change: readGridData }
+                                                "></select>
+                                        </div>
+                                        <script type="text/x-kendo-template" id="legal-entity-template">
+                                        # if (id != null){ #
+                                            #: id # - #: name #
+                                        # } else { #
+                                            #: name #
+                                        # } #
+                                            
+                                        </script>
+
+                                    <!-- <span class="line"></span> -->
+
+                                        <label class="title">Account Type:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-acc-type"
+                                                data-filter="contains"
+                                                data-option-label="{ acc_type: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="acc_type" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: accountsTypeDropDataSource,
+                                                    events: { change: readGridData }
+                                                "></select>
+                                        </div>
+
+                                    <span class="line"></span>
+                                        
+                                        <button 
+
+                                            type="button">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                        </button>
+                                        
+                                        <label class="title" for="only-balance" data-bind="click: readGridData">Only balance:</label>
+                                        <div class="boolean">
+                                            <input 
+                                                type="checkbox"
+                                                id="only-balance">
+                                            <label data-bind="click: readGridData"></label>
+                                        </div>
+                                </div>
+
+                                <div class="table-container">
+                                    <div id="cashFlowTable"></div>
+                                    <script id="balance-template" type="text/x-kendo-template">
+                                        <span class="">
+                                            <b>
+                                                # if({Balance} != "undefined"){ #
+                                                    # if({Balance} < 0){ #
+                                                        <span class="red">#: ({Balance}).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') #</span>
+                                                    # } else { #
+                                                        #: ({Balance}).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') #
+                                                    # } #
+                                                # } #
+                                            </b>
+                                        </span>
+                                    </script>
+                                    <script id="column-template" type="text/x-kendo-template">
+                                        <span>
+                                            # if({Text} != "undefined"){ #
+                                                    #: {Text} #
+                                                # } else { #
+                                                    -
+                                                # } #
+                                        </span>          
+                                    </script>
+                                    <div id="cashflow-context-menu"></div>
+                                    <ul id="cashflow-menu" class="menu">
+                                        <li data-type="add">Add</li>
+                                        <li data-type="transfer" class="bottom_line">Transfer</li>
+                                        <li data-type="details">Details</li>
+                                        <li data-type="clear">Clear Filters</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        <!-- Alm Report -->
+                            <div>
+                                <div class="card-top-panel">
+                                    <button 
+
+                                        type="button">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+
+                                        type="button">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span class="line"></span>
+
+                                    <button 
+                                        type="button">
+                                        <i class="fa fa-minus-square-o" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+
+                                        type="button">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    </button>
+
+
+                                    <span class="line"></span>
+
+                                        <label class="title">Legal Entity:</label>
+                                        <div class="dropdownlist">
+                                            <select 
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: testDropDownData
+                                                "></select>
+                                        </div>
+
+
+                                    <span class="line"></span>
+
+                                        <label class="title">Currency:</label>
+                                        <div class="dropdownlist">
+                                            <select 
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: testDropDownData
+                                                "></select>
+                                        </div>
+
+
+                                    <span class="line"></span>
+
+                                        <label class="title">ALM Book:</label>
+                                        <div class="dropdownlist">
+                                            <select 
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: testDropDownData
+                                                "></select>
+                                        </div>
+
+
+                                    <span class="line"></span>
+
+                                        <label class="title two-line">Intrabook / Intercompany:</label>
+                                        <div class="dropdownlist">
+                                            <select 
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: testDropDownData
+                                                "></select>
+                                        </div>
+
+                                    <span class="line"></span>
+
+                                        <label class="title two-line">Nominal Currency:</label>
+                                        <div class="boolean">
+                                            <input 
+                                                type="checkbox" 
+                                                id="cfr-nominal-currency">
+                                            <label for="cfr-nominal-currency"></label>
+                                        </div>
+
+                                    <span class="line"></span>
+
+                                        <label class="title">History:</label>
+                                        <div class="datepicker">
+                                            <input data-role="datepicker"
+                                                data-format="dd.MM.yyyy"
+                                                style="width: 100%">
+                                        </div>
+
+                                </div>
+
+                                <!-- TREELIST -->
+                                <div class="table-container">
+                                    <div id="alm-report-treelist"></div>                           
+                                </div>
+
+                                <script id="alm-report-Name-template" type="text/x-kendo-template">
+                                    <span class="name-col">
+                                        <b>
+                                            <i class="fa fa-folder" aria-hidden="true"></i>
+                                            #: Name #
+                                        </b>
+                                    </span>
+                                </script>
+
+                                <script id="alm-report-numeric-template" type="text/x-kendo-template">
+                                    <span class="float-col">
+                                        #: String({Field}.toFixed(2)).replace(/(\d)(?=(\d{3})+([^\d]|$))/g, '$1,') #
+                                    </span>
+                                </script>
+                            </div>
+
+                        <!-- Broker Accounts Report -->
+                            <div>
+                                <div class="card-top-panel two-lines">
+                                    <button 
+
+                                        type="button">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                        data-bind="events: { click: readBrokerGridData }"
+                                        type="button">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+
+                                    <span class="clear"></span>
+
+                                        <label class="title">Currency:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-currency-broker"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="id" 
+                                                data-value-field="id" 
+                                                data-option-label-template="drop-down-option-label-template"
+                                                data-bind="
+                                                    source: currencyDropDataSource,
+                                                    events: { change: readBrokerGridData }
+                                                "></select>
+                                        </div> 
+
+                                        <label class="title">Alm Report:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-alm-report-broker"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: almReportDropDataSource,
+                                                    events: { change: readBrokerGridData }
+                                                "></select>
+                                        </div>                                                                           
+
+                                        <label class="title">LE-Broker:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-le-broker-broker"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: leBrokerDropDataSource,
+                                                    events: { change: readBrokerGridData }
+                                                "></select>
+                                        </div>
+
+                                        <label class="title">Sub Broker Acct:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-sub-broker-acct-broker"
+                                                data-option-label="{ code: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="code" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: subBrokerAccountsDropDataSource,
+                                                    events: { change: readBrokerGridData }
+                                                "></select>
+                                        </div>                                        
+                                    
+                                    <br>
+
+                                        <label class="title">CounterParty:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-counter-party-broker"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: leBrokerDropDataSource,
+                                                    events: { change: readBrokerGridData }
+                                                "></select>
+                                        </div>    
+
+                                        <label class="title">Cash Type:</label>
+                                        <div class="dropdownlist">
+                                            <select name="filter-cash-type-broker"
+                                                data-option-label="{ name: '[ None ]', id: null }"
+                                                data-role="dropdownlist"
+                                                data-text-field="name" 
+                                                data-value-field="id" 
+                                                data-bind="
+                                                    source: cashTypeDropDataSource,
+                                                    events: { change: readBrokerGridData }
+                                                "></select>
+                                        </div>   
+
+                                        <label class="title">History:</label>
+                                        <div class="datepicker">
+                                            <input data-role="datepicker"
+                                                name="filter-history-broker"
+                                                data-bind="events: { change: readBrokerGridData }"
+                                                data-format="dd.MM.yyyy"
+                                                style="width: 100%">
+                                        </div>
+
+
+                                    <br>
+
+                                    <span class="line"></span>
+                                        
+                                        <button 
+
+                                            type="button">
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                        </button>
+                                        
+                                        <label class="title">Only balance:</label>
+                                        <div class="boolean">
+                                            <input 
+                                                type="checkbox" 
+                                                id="only-balance-2">
+                                            <label for="only-balance-2"></label>
+                                        </div>
+                                </div>
+
+                                <div class="table-container">
+                                    <div id="brokerReportTable"></div>
+                                    <div id="broker-context-menu"></div>
+                                    <ul id="broker-menu" class="menu">
+                                        <li data-type="transfer" class="bottom_line">Transfer</li>
+                                        <li data-type="details">Details</li>
+                                        <li data-type="clear">Clear Filters</li>
+                                    </ul>
+                                </div>
+  
+                            </div>
+
+                        <!-- Rest Report -->
+                            <div>
+                                <div class="card-top-panel">
+                                    <button 
+
+                                        type="button">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                        data-bind="events: { click: readGridData }"
+                                        type="button">
+                                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </button>
+                                    <span class="line"></span>
+
+                                    <button type="button">
+                                        <i class="fa fa-minus-square-o" aria-hidden="true"></i>
+                                    </button>
+
+                                    <button type="button">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+
+                                <div class="table-container">
+                                    <div id="restReportTable"></div>
+                                   
+                                    <div id="restreport-context-menu"></div>
+                                    <ul id="restreport-menu" class="menu">
+                                        <li>Add</li>
+                                        <li class="bottom_line">Transfer</li>
+                                        <li>Details</li>
+                                        <li data-type="clear">Clear Filters</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                    </div>
+                    <div class="details-content" data-bind="visible: getVisibleDetails">
+                        <div class="card-top-panel two-lines details-panel">
+                            <button type="button">
+                                <i class="fa fa-table" aria-hidden="true"></i>
+                            </button>
+                            <button data-bind="" type="button">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdownlist">
+                                <select name="details-dropdown"
+                                    data-option-label="{ name: '[ None ]', id: null }"
+                                    data-role="dropdownlist"
+                                    data-text-field="name" 
+                                    data-value-field="id" 
+                                    data-bind="
+                                        source: testDropDownData
+                                "></select>
+                            </div>
+                            <span class="clear"></span>
+                            <label class="title">From:</label>
+                            <div class="datepicker">
+                                <input data-role="datepicker" name="details-from" data-bind="events: { change: readDetailsGridData }"
+                                    data-format="dd.MM.yyyy" style="width: 100%;" />
+                            </div>
+                            <label class="title">To:</label>
+                            <div class="datepicker">
+                                <input data-role="datepicker" name="details-to" data-bind="events: { change: readDetailsGridData }"
+                                    data-format="dd.MM.yyyy" style="width: 100%;" />
+                            </div> 
+                            <label class="title">Bank Acc:</label>
+                            <div class="dropdownlist">
+                                <select name="details-bank-acc"
+                                    data-filter="contains"
+                                    data-option-label="{ code: '[ None ]', id: null }"
+                                    data-role="dropdownlist"
+                                    data-text-field="code" 
+                                    data-value-field="id" 
+                                    data-bind="
+                                        source: bankAccDropDataSource,
+                                        events: { change: readDetailsGridData }
+                                "></select>
+                            </div> 
+                            <label class="title">Broker Acc:</label>     
+                            <div class="dropdownlist">
+                                <select name="details-broker-acc"
+                                    data-filter="contains"
+                                    data-option-label="{ code: '[ None ]', id: null }"
+                                    data-role="dropdownlist"
+                                    data-text-field="code" 
+                                    data-value-field="id" 
+                                    data-bind="
+                                        source: subBrokerAccountsDropDataSource,
+                                        events: { change: readDetailsGridData }
+                                "></select>
+                            </div>  
+                            <label class="title">Ic:</label>     
+                            <div class="dropdownlist">
+                                <select name="details-ic"
+                                    data-role="dropdownlist"
+                                    data-template="drop-down-with-checkbox-template"
+                                    data-text-field="name" 
+                                    data-value-field="id" 
+                                    data-bind="
+                                        source: icDropDataSource,
+                                        events: {
+                                            close: icDropDownDataSourceOnClose,
+                                            change: readDetailsGridData
+                                        }
+                                "></select>
+                            </div>
+                            <label class="title">Legal Entity:</label>     
+                            <div class="dropdownlist">
+                                <select name="details-legal-entity"
+                                    data-filter="contains"
+                                    data-option-label="{ name: '[ None ]', id: null }"
+                                    data-role="dropdownlist"
+                                    data-template="legal-entity-template"
+                                    data-value-template="legal-entity-template"
+                                    data-option-label-template="legal-entity-template" 
+                                    data-value-field="id" 
+                                    data-bind="
+                                        source: leBrokerDropDataSource,
+                                        events: { change: readDetailsGridData }
+                                "></select>
+                            </div>   
+                            <br>
+                            <label class="title">Curr:</label>     
+                            <div class="dropdownlist">
+                                <select name="details-curr"
+                                    data-filter="contains"
+                                    data-option-label="{ name: '[ None ]', id: null }"
+                                    data-role="dropdownlist"
+                                    data-text-field="id" 
+                                    data-value-field="id" 
+                                    data-option-label-template="drop-down-option-label-template" 
+                                    data-bind="
+                                        source: currencyDropDataSource,
+                                        events: { change: readDetailsGridData }
+                                "></select>
+                                <sctipt type="text/x-kendo-template" id="drop-down-option-label-template">
+                                    [ None ]
+                                </sctipt>
+                            </div>  
+                            <label class="title">Deal No:</label>     
+                            <div class="input-text">
+                                <input name="details-deal-no" type="text" data-bind="events: { change: readDetailsGridData }"/>
+                            </div>
+                            <label class="title">Alm book:</label>     
+                            <div class="dropdownlist">
+                                <select name="details-alm-book"
+                                    data-filter="contains"
+                                    data-option-label="{ name: '[ None ]', id: null }"
+                                    data-role="dropdownlist"
+                                    data-text-field="name" 
+                                    data-value-field="id" 
+                                    data-bind="
+                                        source: lmBookDropDataSource,
+                                        events: { change: readDetailsGridData }
+                                "></select>
+                            </div>     
+                            <label class="title">Src:</label>     
+                            <div class="dropdownlist">
+                                <select name="details-src"
+                                    data-role="dropdownlist"
+                                    data-template="drop-down-with-checkbox-template"
+                                    data-text-field="name" 
+                                    data-value-field="id" 
+                                    data-bind="
+                                        source: srcDropDownDataSource,
+                                        events: {
+                                            close: srcDropDownDataSourceOnClose,
+                                            change: readDetailsGridData
+                                        }
+                                "></select>
+                                <sctipt type="text/x-kendo-template" id="drop-down-with-checkbox-template">
+                                        <input id="src_#= id #" type="checkbox" name="#= name #" value="#= id #" class="check-input"/>
+                                        <label for="src_#= id #">#= name #</label>
+                                </sctipt>
+                            </div> 
+                            <label class="title">Oper Date:</label>     
+                            <div class="datepicker"> 
+                                <input data-role="datepicker" name="details-oper-date" data-bind="events: { change: readDetailsGridData }"
+                                    data-format="dd.MM.yyyy" style="width: 100%;" />
+                            </div>                                                                                                                                                               
+                        </div>
+                        <div class="table-container">
+                            <div id="detailsTable"></div>
+                        </div>   
+                        <sctipt type="text/x-kendo-template" id="date-template" style="display:none"><!--отображается текст, временное сокрытие-->
+                            #: moment({Date}).format('DD.MM.YYYY') #
+                        </sctipt>                     
+                    </div>                      
+                    <div class="card-bottom-panel">
+                        <button type="button" data-bind="click: openAddDialog">Add</button>
+                        <button type="button" data-bind="click: openAddRestDialog">Add rests</button>
+                        <button type="button" data-bind="click: openTransferDialog">Transfer</button>
+                        <button type="button" data-bind="click: detailsButtonOnClick, text : getDetailsButtonText" id="detailsButton"></button>
+                        <span class="version">v. 1.00</span>
+                    </div>                 
+                </div>
+        </div>
+
+        <script type="text/javascript">
+            $(window).bind('resize', function() {
+                $('.base-cards-list > .card-item').css('height', $(window).height() - 63);
+                $('.base-cards-list > .card-item .table-container').css('height', $(window).height() - 210);
+            });
+            $(window).trigger('resize');
+
+        </script>
+
+        <!-- popup form -->
+            <div id="menu-table-popup" class="white-popup-block mfp-hide">
+                <div class="popup-table-top-panel">
+                    <button type="button" data-bind="click: addNewItem"><i class="fa fa-plus"></i></button>
+                    <button type="button" data-bind="click: removeDictionaryItems"><i class="fa fa-times"></i></button>
+                    <button type="button" data-bind="click: readPopupGridData"><i class="fa fa-refresh"></i></button>
+                    <button type="button" data-bind="click: excelGridData"><i class="fa fa-table"></i></button>
+                </div>            
+                <div id="popupTable"></div>
+                <div class="background"></div>
+                <div class="popup-save">
+                    <div class="text">
+                        Do you want to save your changes?
+                    </div>
+                    <div class="buttons">
+                        <button type="button" data-bind="click: saveTablePopup">Save</button>
+                        <button type="button" data-bind="click: continueTablePopup">Continue</button> 
+                    </div>
+                </div>
+                <div class="popup-table-bottom-panel">
+                    <button type="button" data-bind="click: saveTablePopup">Save</button>
+                    <button type="button" data-bind="click: closeTablePopup">Cancel</button>
+                </div>
+            </div>
+
+        <!-- TEMP -->
+            <form id="test-form" class="white-popup-block mfp-hide">
+                <h1>Form</h1>
+                <fieldset style="border:0;">
+                    <p>Lightbox has an option to automatically focus on the first input. It's strongly recommended to use <code>inline</code> popup type for lightboxes with form instead of <code>ajax</code> (to keep entered data if the user accidentally refreshed the page).</p>
+                    <ol>
+                        <li>
+                            <label for="name">Name</label>
+                            <input id="name" name="name" type="text" placeholder="Name" required="">
+                        </li>
+                        <li>
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email" placeholder="example@domain.com" required="">
+                        </li>
+                        <li>
+                            <label for="phone">Phone</label>
+                            <input id="phone" name="phone" type="tel" placeholder="Eg. +447500000000" required="">
+                        </li>
+                        <li>
+                            <label for="textarea">Textarea</label><br>
+                            <textarea id="textarea">Try to resize me to see how popup CSS-based resizing works.</textarea>
+                        </li>
+                    </ol>
+                </fieldset>
+            </form>
+        <!-- Add form -->
+            <div id="add-form" class="white-popup-block mfp-hide popup-form">
+                <div>
+                    <label class="title">ALM report:</label>
+                    <div class="big">
+                        <select name="add-alm-report" style="width:408px;"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: almReportDropDataSource
+                            "></select>
+                    </div>                
+                </div>
+                <div>
+                    <label class="title">CP Type:</label>
+                    <div>
+                        <select name="add-cp-type"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: cpTypeDropDataSource
+                            "></select>
+                    </div>                
+                </div>
+                <div>
+                    <label class="title">Account:</label>
+                    <div>
+                        <select name="add-account"
+                            data-option-label="{ code: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="code" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: accountDropDataSource,
+                                events: {
+                                    change: addAccountOnChange
+                                }
+                            "></select>
+                    </div>      
+                    <label class="title">Legal Entity:</label>
+                    <div>
+                        <input name="add-legal-entity" type="text" />
+                    </div>                                   
+                </div>
+                <div>
+                    <label class="title">Oper. Type:</label>
+                    <div>
+                        <select name="add-oper-type"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: operTypeDropDataSource
+                            "></select>
+                    </div>   
+                    <label for="addRest" class="title">Rest:</label>
+                    <div>
+                        <input id="addRest" name="add-rest" type="checkbox" />
+                        <label for="addRest" class="input-checkbox"></label>
+                    </div>   
+                </div>
+                <div>
+                    <label class="title">Amount:</label>
+                    <div class="dropdownlist">
+                        <input name="add-amount" data-role="numerictextbox"
+                            data-format="c"/>
+                    </div>  
+                    <label class="title">Currency:</label>
+                    <div>
+                        <select name="add-currency"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="source: currencyDataSource"></select>
+                    </div> 
+                </div>
+                <div>
+                    <label class="title">Equivalent:</label>
+                    <div class="dropdownlist">
+                        <input name="add-equivalent" data-role="numerictextbox"
+                            data-format="c"/>
+                    </div>                
+                </div>
+                <div>
+                    <label class="title">Oper. Date:</label>
+                    <div>
+                        <input name="add-oper-date" data-role="datepicker" data-format="dd.MM.yyyy" />
+                    </div>                
+                </div>   
+                <div>
+                    <input id="addDelete" name="add-delete" type="checkbox" />
+                    <label class="title delete-checkbox" for="addDelete">Delete operation on expiration</label>         
+                </div> 
+                <div class="description">
+                    <span>Description</span>
+                    <textarea name="add-description"></textarea>
+                </div> 
+                <div>
+                    <label class="title">Patterns:</label>
+                    <div class="big">
+                        <select name="add-patterns" style="width:408px;"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: emptyDropDataSource
+                            "></select>
+                    </div>                
+                </div>       
+                <div class="popup-table-bottom-panel">
+                    <button type="button" data-bind="click: saveAddPopup">OK</button>
+                    <button type="button" data-bind="click: closeAddPopup">Close</button>
+                </div>
+            </div>
+        <!-- Transfer form -->
+            <div id="transfer-form" class="white-popup-block mfp-hide">
+                <div id="expense-form" class="popup-form">
+                <h3>Expense</h3>
+                <div>
+                    <label class="title">ALM report:</label>
+                    <div class="big">
+                        <select name="expense-alm-report" style="width:408px;"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: almReportDropDataSource
+                            "></select>
+                    </div>                
+                </div>
+                <div>
+                    <label class="title">CP Type:</label>
+                    <div>
+                        <select name="expense-cp-type"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: cpTypeDropDataSource
+                            "></select>
+                    </div> 
+                    <label class="title">Expiration Date:</label>
+                    <div>
+                        <input name="expense-expiration-date" data-role="datepicker" data-format="dd.MM.yyyy"/>
+                    </div>    
+                </div>
+                <div>
+                    <label class="title">Account:</label>
+                    <div>
+                        <select name="expense-account"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="code" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: accountDropDataSource,
+                                events: {
+                                    change: expenseAccountOnChange
+                                }
+                            "></select>
+                    </div>      
+                    <label class="title">Legal Entity:</label>
+                    <div>
+                        <input name="expense-legal-entity" type="text" />
+                    </div>                                 
+                </div>
+                <div>
+                    <label class="title">Currency:</label>
+                    <div>
+                        <select name="expense-currency"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: currencyExpenseDataSource
+                            "></select>
+                    </div> 
+                </div>       
+                </div>
+                <div id="income-form" class="popup-form">
+                <h3>Income</h3>
+                <div>
+                    <label class="title">ALM report:</label>
+                    <div class="big">
+                        <select name="income-alm-report" style="width:408px;"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: almReportDropDataSource
+                            "></select>
+                    </div>                
+                </div>
+                <div>
+                    <label class="title">CP Type:</label>
+                    <div>
+                        <select name="income-cp-type"
+                            data-option-label="{ name: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: cpTypeDropDataSource
+                            "></select>
+                    </div> 
+                    <label class="title">Expiration Date:</label>
+                    <div>
+                        <input name="income-expiration-date" data-role="datepicker" data-format="dd.MM.yyyy"/>
+                    </div>    
+                </div>
+                <div>
+                    <label class="title">Account:</label>
+                    <div>
+                        <select name="income-account"
+                            data-option-label="{ code: '', id: null }"
+                            data-role="dropdownlist"
+                            data-text-field="code" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: accountDropDataSource,
+                                events:{
+                                    change: incomeAccountOnChange
+                                }
+                            "></select>
+                    </div>      
+                    <label class="title">Legal Entity:</label>
+                    <div>
+                        <input name="income-legal-entity" type="text" />
+                    </div>                                 
+                </div>
+                <div>
+                    <label class="title">Currency:</label>
+                    <div>
+                        <select name="income-currency"
+                            data-role="dropdownlist"
+                            data-text-field="name" 
+                            data-value-field="id" 
+                            data-bind="
+                                source: currencyIncomeDataSource
+                            "></select>
+                    </div> 
+                </div>       
+                </div> 
+                <div class="amount">
+                    <span>Amount:</span>
+                    <div>
+                        <input name="transfer-amount" data-role="numerictextbox"
+                            data-format="c"/>
+                    </div>
+                    <span>Equivalent:</span>
+                    <div>
+                        <input name="transfer-equivalent" data-role="numerictextbox"
+                            data-format="c"/>
+                    </div>
+                    <span>Oper. Date:</span>
+                    <div>
+                        <input name="transfer-oper-date" data-role="datepicker" data-format="dd.MM.yyyy"/>
+                    </div>
+                </div> 
+                <div class="description">
+                    <span>Description</span>
+                    <textarea name="transfer-description"></textarea>
+                </div> 
+                <div class="popup-table-bottom-panel two-form">
+                    <button type="button" data-bind="click: saveTransferPopup">OK</button>
+                    <button type="button" data-bind="click: closeTransferPopup">Close</button>
+                </div>            
+            </div>
+        <!-- Add Rest Form -->
+            <div id="add-rest-form" class="white-popup-block mfp-hide add-rest-panel">
+                <div class="popup-table-top-panel">
+                    <span>Oper. Date:</span>
+                    <input name="add-rest-oper-date" data-role="datepicker" data-format="dd.MM.yyyy"/>
+                    <span>Expir. Date:</span>
+                    <input name="add-rest-expir-date" data-role="datepicker" data-format="dd.MM.yyyy"/>                    
+                    <button type="button" data-bind="click: addNewItemAddRest"><i class="fa fa-plus"></i></button>
+                    <button type="button" data-bind="click: removeAddRestItems"><i class="fa fa-times"></i></button>
+                </div>            
+                <div id="addRestTable"></div>
+                <div class="popup-table-bottom-panel">
+                    <button type="button" data-bind="click: saveAddRestPopup">Save</button>
+                    <button type="button" data-bind="click: closeAddPopup">Close</button>
+                </div>
+            </div>
+
+        <div>
+    </div>
+    </div>            
+    </body>
+</html>
